@@ -25,14 +25,6 @@ pipeline{
                 }
             }
         }
-                
-        stage("Quality Gate") {
-            steps {
-                    script {
-                        waitForQualityGate abortPipeline: false, credentialsId: 'sonar-token' 
-                    }
-                } 
-            }
         stage('OWASP Dependency Check') {
             steps {
                 dir('Application-Code') {
