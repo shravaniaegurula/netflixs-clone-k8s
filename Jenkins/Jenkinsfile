@@ -88,28 +88,3 @@ pipeline{
             }
         }
     }
-    post {
-        always {
-            script {
-                def colorCode = currentBuild.result == 'SUCCESS' ? '#2eb886' : 
-                                currentBuild.result == 'FAILURE' ? '#ff0000' : '#daa038'
-    
-                slackSend(
-                    channel: '#devops-alerts',
-                    color: colorCode,
-                    message: """
-                    *🚀 Jenkins Build Notification*
-                    *Project:* ${env.JOB_NAME}
-                    *Build Number:* #${env.BUILD_NUMBER}
-                    *Status:* *${currentBuild.result}*
-                    *URL:* <${env.BUILD_URL}|Open Build>
-    
-                    ${currentBuild.result == 'SUCCESS' ? '✅ All steps completed successfully!' : 
-                    currentBuild.result == 'FAILURE' ? '❌ Build failed. Please check logs.' : 
-                    '⚠️ Build is unstable or aborted.'}
-                    """.stripIndent()
-                )
-            }
-        }
-    }
-}
